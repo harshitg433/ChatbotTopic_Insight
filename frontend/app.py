@@ -7,13 +7,13 @@ from ui_components import styled_button, custom_text_input # Import modular comp
 BACKEND_URL = "http://localhost:8000/analyze_topic/"
 
 st.set_page_config(page_title="Research Paper Analyzer", layout="centered")
- 
-st.title("🔬 Topic Analyzer")
+
+st.title("🔬  Topic Analyzer")
 st.markdown("Enter a topic below and get a quick analysis from an AI.")
 
 # User input for the topic
 topic_input = custom_text_input(
-    "Enter Topic:",
+    "Enter Research Topic:",
     placeholder="e.g., 'The impact of quantum computing on cryptography'",
     key="topic_input"
 )
