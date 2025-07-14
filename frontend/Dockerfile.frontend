@@ -1,0 +1,9 @@
+# frontend/Dockerfile.frontend
+FROM python:3.11-slim-buster
+WORKDIR /app
+# Copy only requirements first to leverage Docker cache
+COPY frontend/requirements.txt /app/
+RUN pip install --no-cache-dir -r requirements.txt
+# Copy the entire frontend directory
+COPY frontend/ /app/
+CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.enableCORS=false"]
