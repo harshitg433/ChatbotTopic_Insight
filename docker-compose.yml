@@ -1,0 +1,34 @@
+# ChatbotTopic_Insight/docker-compose.yml
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .             # Build context is the root directory
+      dockerfile: backend/Dockerfile # Path to backend's Dockerfile
+    ports:
+      - "8000:8000"          # Map host port 8000 to container port 8000
+    environment:
+      # Pass the API key to the backend container.
+      # docker-compose will automatically read from your .env file in the root.
+      - GROQ_API_KEY=${GROQ_API_KEY}
+    networks:
+      - app_network          # Place backend on our custom network
+
+  frontend:
+    build:
+      context: .             # Build context is the root directory
+      dockerfile: frontend/Dockerfile.frontend # Path to frontend's Dockerfile
+    ports:
+      - "8501:8501"          # Map host port 8501 to container port 8501
+    environment:
+      # IMPORTANT: Use the service name 'backend' to refer to the backend container
+      - BACKEND_URL=http://backend:8000/analyze_topic/ # This is how frontend talks to backend
+    depends_on:
+      - backend              # Ensures backend starts before frontend
+    networks:
+      - app_network          # Place frontend on our custom network
+
+networks:
+  app_network:
+    driver: bridge           # Define a custom bridge network for internal communication
